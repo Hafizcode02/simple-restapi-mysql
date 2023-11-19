@@ -1,18 +1,15 @@
 const express = require('express');
 
 const usersRoute = require('./routes/users.js');
-
+const middlewareLogRequest = require('./middleware/logs.js');
 const app = express();
 
-// Use Directory slash
-// app.use("/", (req, res, next) => {
-//     res.send('Hello World');
-// })
+app.use(middlewareLogRequest); // middleware use for logging, or maybe wanna tracking input or checking jwt, etc.
 
 app.use('/users', usersRoute);
 
 app.get("/", (req, res) => {
-    res.status(200).json({ //response.status_code(YOUR_STATUS_CODE).json_data(YOUR_JSON)
+    res.status(200).json({ // response.status_code(YOUR_STATUS_CODE).json_data(YOUR_JSON)
         nama: "Hafiz Caniago",
         email: "hafizcode02@gmail.com"
     });
