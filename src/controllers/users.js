@@ -1,23 +1,20 @@
+const usersModel = require('../models/users');
+
 // response.status_code(YOUR_STATUS_CODE).json_data(YOUR_JSON)
+const getAllUsers = async (req, res) => {
+    try {
+        const [data] = await usersModel.getAllUsers(); // if you not destructuring the data will be two array (row data, and column data)
+        res.status(200).json({
+            message: "GET all users success",
+            data: data,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error",
+            serverMessage: error,
+        });
+    }
 
-const getAllUsers = (req, res) => {
-    const data = [
-        {
-            id: 1001,
-            name: "Hafiz Caniago",
-            email: "hafizcode02@gmail.com"
-        },
-        {
-            id: 1002,
-            name: "Iqbal Pamula",
-            email: "blape@gmail.com"
-        }
-    ]
-
-    res.json({
-        message: "GET all users success",
-        data: data,
-    })
 }
 
 const createNewUser = (req, res) => {
