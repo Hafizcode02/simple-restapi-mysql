@@ -17,6 +17,22 @@ const getAllUsers = async (req, res) => {
 
 }
 
+const getUserByID = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [data] = await usersModel.getUserByID(id); // if you not destructuring the data will be two array (row data, and column data)
+        return res.status(200).json({
+            message: "data retrieved success",
+            data: data,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            serverMessage: error,
+        });
+    }
+}
+
 const createNewUser = async (req, res) => {
     const { body } = req;
 
@@ -68,16 +84,29 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     const { id } = req.params // destructuring based on your params typed in routes.
-    res.json({
-        message: "delete user success",
-        data: {
-            id: id,
-            name: "Hayoolo",
-            email: "hayolo@gmail.com",
-        }
-    })
+    const [data] = await usersModel.getUserByID(id);
+
+    if(data == ""){
+        return res.status(404).json({
+            error: "Not Found",
+            message: "TThe users with that id is not exist"
+        });
+    }
+
+    try {
+        await usersModel.deleteUser(id);
+        return res.json({
+            message: "delete user success",
+            data: data
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            serverMessage: error,
+        });
+    }
 }
 
-module.exports = { getAllUsers, createNewUser, updateUser, deleteUser };
+module.exports = { getAllUsers, getUserByID, createNewUser, updateUser, deleteUser };
