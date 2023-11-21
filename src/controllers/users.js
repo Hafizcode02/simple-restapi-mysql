@@ -4,12 +4,12 @@ const usersModel = require('../models/users');
 const getAllUsers = async (req, res) => {
     try {
         const [data] = await usersModel.getAllUsers(); // if you not destructuring the data will be two array (row data, and column data)
-        res.status(200).json({
+        return res.status(200).json({
             message: "GET all users success",
             data: data,
         });
     } catch (error) {
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server Error",
             serverMessage: error,
         });
@@ -17,12 +17,29 @@ const getAllUsers = async (req, res) => {
 
 }
 
-const createNewUser = (req, res) => {
+const createNewUser = async (req, res) => {
     console.log(req.body);
-    res.json({
-        message: "CREATE new users success",
-        data: req.body,
-    })
+    const { body } = req;
+
+    if (!body.name || !body.email || !body.address) {
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body is not correctly formatted or contains invalid data."
+        });
+    }
+
+    try {
+        await usersModel.createNewUser(body);
+        return res.status(201).json({
+            message: "CREATE new users success",
+            data: body,
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            serverMessage: error,
+        });
+    }
 }
 
 const updateUser = (req, res) => {
