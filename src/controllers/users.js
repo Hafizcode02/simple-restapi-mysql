@@ -18,9 +18,9 @@ const getAllUsers = async (req, res) => {
 }
 
 const createNewUser = async (req, res) => {
-    console.log(req.body);
     const { body } = req;
 
+    // Checking the value is not null or empty
     if (!body.name || !body.email || !body.address) {
         return res.status(400).json({
             error: "Bad Request",
@@ -42,23 +42,34 @@ const createNewUser = async (req, res) => {
     }
 }
 
-const updateUser = (req, res) => {
-    // const {id, postId} = req.params
-    const { id } = req.params // destructuring based on your params typed in routes.
-    console.log('idUser: ', id);
-    // console.log(postId);
-    res.json({
-        message: "update user success",
-        id: id,
-        data: req.body,
-    })
+const updateUser = async (req, res) => {
+    const { id } = req.params; // destructuring based on your params typed in routes.
+    const { body } = req;
+
+    // Checking the value is not null or empty
+    if (!body.name || !body.email || !body.address) {
+        return res.status(400).json({
+            error: "Bad Request",
+            message: "The request body is not correctly formatted or contains invalid data."
+        });
+    }
+
+    try {
+        await usersModel.updateUser(id, body);
+        return res.status(200).json({
+            message: "update user success",
+            data: body
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Server Error",
+            serverMessage: error,
+        });
+    }
 }
 
 const deleteUser = (req, res) => {
-    // const {id, postId} = req.params
     const { id } = req.params // destructuring based on your params typed in routes.
-    console.log('idUser: ', id);
-    // console.log(postId);
     res.json({
         message: "delete user success",
         data: {

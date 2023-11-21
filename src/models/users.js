@@ -8,14 +8,18 @@ const getAllUsers = () => {
 const createNewUser = (data) => {
     const query = 'INSERT INTO users (name, email, address) VALUES (?,?,?)';
     let bodyData = [data.name, data.email, data.address];
-    console.log(bodyData);
 
-    return dbPool.execute(query, bodyData, (err, results, fields) => {
-        console.log(results);
-        console.log(fields);
-    })
+    return dbPool.execute(query, bodyData);
+}
+
+const updateUser = (id, data) => {
+    const query = 'UPDATE users SET name=?, email=?, address=? WHERE id=?';
+    let bodyData = [data.name, data.email, data.address, id];
+
+    return dbPool.execute(query, bodyData);
+
 }
 
 module.exports = {
-    getAllUsers, createNewUser
+    getAllUsers, createNewUser, updateUser
 }
