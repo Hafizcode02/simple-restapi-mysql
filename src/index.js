@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 8004;
 
 app.use(middlewareLogRequest); // middleware use for logging, or maybe wanna tracking input or checking jwt, etc.
 app.use(express.json()); // allowing request body using json
+app.use(express.static('public'))
 
 app.use('/users', usersRoute);
 
