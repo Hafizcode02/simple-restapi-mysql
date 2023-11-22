@@ -62,6 +62,16 @@ const updateUser = async (req, res) => {
     const { id } = req.params; // destructuring based on your params typed in routes.
     const { body } = req;
 
+    const [data] = await usersModel.getUserByID(id);
+
+    // check the users exist
+    if(data == ""){
+        return res.status(404).json({
+            error: "Not Found",
+            message: "The users with that id is not exist"
+        });
+    }
+
     // Checking the value is not null or empty
     if (!body.name || !body.email || !body.address) {
         return res.status(400).json({
@@ -88,10 +98,11 @@ const deleteUser = async (req, res) => {
     const { id } = req.params // destructuring based on your params typed in routes.
     const [data] = await usersModel.getUserByID(id);
 
+    // check the users exist
     if(data == ""){
         return res.status(404).json({
             error: "Not Found",
-            message: "TThe users with that id is not exist"
+            message: "The users with that id is not exist"
         });
     }
 
