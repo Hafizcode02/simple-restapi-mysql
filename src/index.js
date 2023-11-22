@@ -15,10 +15,16 @@ app.use('/', express.static('public'))
 
 app.use('/users', usersRoute);
 
+
 app.post('/upload', upload.single('photo'), (req, res) => { // use middleware in function
     res.json({
         message: 'Upload Berhasil'
     })
+});
+app.use((err, req, res, next) => {
+    res.json({
+        message: err.message,
+    });
 });
 
 app.listen(PORT, () => {
