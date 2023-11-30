@@ -83,6 +83,7 @@ For POST, PATCH users use raw JSON type
     "address": "World"
 }
 
-For POST images/files, use form-data type :
+For POST images/files, use form-data type. 
+
+photo : abcd.jpg
 ```
-![image](https://github.com/Hafizcode02/restapi-mysql/assets/53365353/f34f374f-bf6d-4625-91b8-5bde9488b0d0)
