@@ -1,10 +1,11 @@
 const express = require('express');
 
 const UserController = require('../controllers/users');
+const { runValidation, createUserValidator } = require('../utils/validation');
 const router = express.Router();
 
 // CREATE - POST
-router.post('/', UserController.createNewUser);
+router.post('/', createUserValidator, runValidation, UserController.createNewUser);
 // READ - GET
 router.get('/', UserController.getAllUsers);
 // READ - GET BY ID

@@ -36,13 +36,13 @@ const getUserByID = async (req, res) => {
 const createNewUser = async (req, res) => {
     const { body } = req;
 
-    // Checking the value is not null or empty
-    if (!body.name || !body.email || !body.address) {
-        return res.status(400).json({
-            error: "Bad Request",
-            message: "The request body is not correctly formatted or contains invalid data."
-        });
-    }
+    // // Checking the value is not null or empty
+    // if (!body.name || !body.email || !body.address) {
+    //     return res.status(400).json({
+    //         error: "Bad Request",
+    //         message: "The request body is not correctly formatted or contains invalid data."
+    //     });
+    // }
 
     try {
         await usersModel.createNewUser(body);
@@ -65,7 +65,7 @@ const updateUser = async (req, res) => {
     const [data] = await usersModel.getUserByID(id);
 
     // check the users exist
-    if(data == ""){
+    if (data == "") {
         return res.status(404).json({
             error: "Not Found",
             message: "The users with that id is not exist"
@@ -99,7 +99,7 @@ const deleteUser = async (req, res) => {
     const [data] = await usersModel.getUserByID(id);
 
     // check the users exist
-    if(data == ""){
+    if (data == "") {
         return res.status(404).json({
             error: "Not Found",
             message: "The users with that id is not exist"
