@@ -8,6 +8,7 @@ const getAllUsers = () => {
 const getUserByID = (id) => {
     const query = 'SELECT * FROM users WHERE id=?';
     return dbPool.execute(query, [id]);
+
 }
 
 const createNewUser = (data) => {
@@ -30,6 +31,11 @@ const deleteUser = (id) => {
     return dbPool.execute(query, [id]);
 }
 
+const findEmail = (email) => {
+    const query = 'SELECT * FROM users WHERE email=?';
+    return dbPool.execute(query, [email]);
+}
+
 module.exports = {
-    getAllUsers, getUserByID, createNewUser, updateUser, deleteUser
+    getAllUsers, getUserByID, createNewUser, updateUser, deleteUser, findEmail
 }
